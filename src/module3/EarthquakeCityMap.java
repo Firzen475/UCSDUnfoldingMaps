@@ -1,12 +1,15 @@
 package module3;
 
 //Java utilities libraries
+import java.awt.*;
 import java.util.ArrayList;
 //import java.util.Collections;
 //import java.util.Comparator;
 import java.util.List;
 
 //Processing library
+import de.fhpotsdam.unfolding.data.Feature;
+import de.fhpotsdam.unfolding.geo.Location;
 import processing.core.PApplet;
 
 //Unfolding libraries
@@ -20,6 +23,8 @@ import de.fhpotsdam.unfolding.utils.MapUtils;
 
 //Parsing library
 import parsing.ParseFeed;
+
+
 
 /** EarthquakeCityMap
  * An application with an interactive map displaying earthquake data.
@@ -77,9 +82,51 @@ public class EarthquakeCityMap extends PApplet {
 	    // to create a new SimplePointMarker for each PointFeature in 
 	    // earthquakes.  Then add each new SimplePointMarker to the 
 	    // List markers (so that it will be added to the map in the line below)
-	    
-	    
-	    // Add the markers to the map so that they are displayed
+
+		/*Location valLoc0 = new Location(-38.14F, -73.03F);
+		Location valLoc1 = new Location(61.02F, -147.65F);
+		Location valLoc2 = new Location(3.30F, 95.78F);
+		Location valLoc3 = new Location(38.322F, 142.36F);
+		Location valLoc4 = new Location(52.76F, 160.06F);
+		PointFeature valEq0 = new PointFeature(valLoc0);
+		valEq0.addProperty("title", "0");
+		valEq0.addProperty("magnitude", "0");
+		valEq0.addProperty("date", "0");
+		valEq0.addProperty("year", "0");
+		PointFeature valEq1 = new PointFeature(valLoc1);
+		valEq1.addProperty("title", "1");
+		valEq1.addProperty("magnitude", "1");
+		valEq1.addProperty("date", "1");
+		valEq1.addProperty("year", "1");
+		PointFeature valEq2 = new PointFeature(valLoc2);
+		valEq2.addProperty("title", "2");
+		valEq2.addProperty("magnitude", "2");
+		valEq2.addProperty("date", "2");
+		valEq2.addProperty("year", "2");
+		PointFeature valEq3 = new PointFeature(valLoc3);
+		valEq3.addProperty("title", "3");
+		valEq3.addProperty("magnitude", "3");
+		valEq3.addProperty("date", "3");
+		valEq3.addProperty("year", "3");
+		PointFeature valEq4 = new PointFeature(valLoc4);
+		valEq4.addProperty("title", "4");
+		valEq4.addProperty("magnitude", "4");
+		valEq4.addProperty("date", "4");
+		valEq4.addProperty("year", "4");
+
+		earthquakes.add(valEq0);
+		earthquakes.add(valEq1);
+		earthquakes.add(valEq2);
+		earthquakes.add(valEq3);
+		earthquakes.add(valEq4);*/
+
+		for (PointFeature eq: earthquakes){
+			markers.add(createMarker(eq));
+		}
+
+
+
+		// Add the markers to the map so that they are displayed
 	    map.addMarkers(markers);
 	}
 		
@@ -92,6 +139,7 @@ public class EarthquakeCityMap extends PApplet {
 	 * TODO (Step 4): Add code to this method so that it adds the proper 
 	 * styling to each marker based on the magnitude of the earthquake.  
 	*/
+
 	private SimplePointMarker createMarker(PointFeature feature)
 	{  
 		// To print all of the features in a PointFeature (so you can see what they are)
@@ -116,7 +164,16 @@ public class EarthquakeCityMap extends PApplet {
 	    // Rather than comparing the magnitude to a number directly, compare 
 	    // the magnitude to these variables (and change their value in the code 
 	    // above if you want to change what you mean by "moderate" and "light")
-	    
+	    if (mag<=4.0f) {
+			marker.setRadius(5.0f);
+			marker.setColor(Color.BLUE.getRGB());
+		}else if(mag>4.0f & mag<=4.9f){
+			marker.setRadius(10.0f);
+			marker.setColor(Color.YELLOW.getRGB());
+		}else if(mag<4.9f){
+			marker.setRadius(15.0f);
+			marker.setColor(color(200,200,0));
+		}
 	    
 	    // Finally return the marker
 	    return marker;
@@ -132,8 +189,23 @@ public class EarthquakeCityMap extends PApplet {
 	// helper method to draw key in GUI
 	// TODO: Implement this method to draw the key
 	private void addKey() 
-	{	
-		// Remember you can use Processing's graphics methods here
-	
+	{
+		rectMode(CORNER);  // Default rectMode is CORNER
+		fill(100);  // Set fill to white
+		quad(10, 50, 10, 400, 200, 400, 200, 50);
+		ellipseMode(CENTER);  // Set ellipseMode to CENTER
+		fill(Color.BLUE.getRGB());  // Set fill to gray60, 150
+		ellipse(40,70,20,20);
+
+		ellipseMode(CENTER);  // Set ellipseMode to CENTER60, 50,
+		fill(Color.YELLOW.getRGB());  // Set fill to gray
+		ellipse(40,120,20,20);
+
+		ellipseMode(CENTER);  // Set ellipseMode to CENTER
+		fill(Color.RED.getRGB());  // Set fill to gray
+		ellipse(40,170,20,20);
+		textSize(32);
+		text("SDFSDFASDFASDFASDF ASDFASDFSDF", 70, 80);
+
 	}
 }

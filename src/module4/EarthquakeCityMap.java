@@ -1,8 +1,5 @@
 package module4;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import de.fhpotsdam.unfolding.UnfoldingMap;
 import de.fhpotsdam.unfolding.data.Feature;
 import de.fhpotsdam.unfolding.data.GeoJSONReader;
@@ -16,6 +13,11 @@ import de.fhpotsdam.unfolding.providers.MBTilesMapProvider;
 import de.fhpotsdam.unfolding.utils.MapUtils;
 import parsing.ParseFeed;
 import processing.core.PApplet;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 
 /** EarthquakeCityMap
  * An application with an interactive map displaying earthquake data.
@@ -80,7 +82,7 @@ public class EarthquakeCityMap extends PApplet {
 		//earthquakesURL = "test2.atom";
 		
 		// WHEN TAKING THIS QUIZ: Uncomment the next line
-		//earthquakesURL = "quiz1.atom";
+		earthquakesURL = "quiz1.atom";
 		
 		
 		// (2) Reading in earthquake data and geometric properties
@@ -118,10 +120,9 @@ public class EarthquakeCityMap extends PApplet {
 	    //           for their geometric properties
 	    map.addMarkers(quakeMarkers);
 	    map.addMarkers(cityMarkers);
-	    
-	}  // End setup
-	
-	
+
+			}  // End setup
+
 	public void draw() {
 		background(0);
 		map.draw();
@@ -170,7 +171,9 @@ public class EarthquakeCityMap extends PApplet {
 		// If isInCountry ever returns true, isLand should return true.
 		for (Marker m : countryMarkers) {
 			// TODO: Finish this method using the helper method isInCountry
-			
+			if (isInCountry(earthquake,m)){
+				return true;
+			}
 		}
 		
 		
@@ -210,8 +213,32 @@ public class EarthquakeCityMap extends PApplet {
 		//  * If you know your Marker, m, is a LandQuakeMarker, then it has a "country" 
 		//      property set.  You can get the country with:
 		//        String country = (String)m.getProperty("country");
-		
-		
+
+
+		int SeaMarkerSum =0;
+		HashMap<String,Integer> resultHashMap = new HashMap<String, Integer>();
+		for (Marker quake :quakeMarkers){
+			if (quake instanceof  LandQuakeMarker){
+				String countryName = ((LandQuakeMarker) quake).getCountry();
+				if (resultHashMap.containsKey(countryName)){
+					resultHashMap.put(countryName,resultHashMap.get(countryName)+1);
+				}else {
+					resultHashMap.put(countryName,1);
+				}
+			}
+			if (!((EarthquakeMarker)quake).isOnLand()) {
+				SeaMarkerSum++;
+			}
+
+		}
+		Iterator<HashMap.Entry<String, Integer>> countryIterator = resultHashMap.entrySet().iterator();
+		while (countryIterator.hasNext()){
+			HashMap.Entry<String, Integer> elem = countryIterator.next();
+			System.out.println(elem.getKey()+": "+ elem.getValue());
+		}
+
+		System.out.println("/////////////////////////////////////");
+		System.out.println("InOcean: "+SeaMarkerSum);
 	}
 	
 	

@@ -13,17 +13,22 @@ import processing.core.PGraphics;
  *
  */
 public class CityMarker extends SimplePointMarker {
-	
+
 	// The size of the triangle marker
 	// It's a good idea to use this variable in your draw method
 	public static final int TRI_SIZE = 5;  
-	
+
+	public CityMarker(){
+		this(new Location(-38.14F, -73.03F));
+	}
+
 	public CityMarker(Location location) {
 		super(location);
 	}
 	
 	
 	public CityMarker(Feature city) {
+
 		super(((PointFeature)city).getLocation(), city.getProperties());
 	}
 	
@@ -35,7 +40,9 @@ public class CityMarker extends SimplePointMarker {
 	public void draw(PGraphics pg, float x, float y) {
 		// Save previous drawing style
 		pg.pushStyle();
-		
+		//pg.rectMode(PConstants.CENTER);
+		pg.fill(150, 30, 30);
+		pg.triangle(x, y-TRI_SIZE, x-TRI_SIZE, y+TRI_SIZE, x+TRI_SIZE, y+TRI_SIZE);
 		// TODO: Add code to draw a triangle to represent the CityMarker
 		// HINT: pg is the graphics object on which you call the graphics
 		// methods.  e.g. pg.fill(255, 0, 0) will set the color to red
@@ -45,9 +52,14 @@ public class CityMarker extends SimplePointMarker {
 		// e.g. pg.rect(x, y, 10, 10) will draw a 10x10 square
 		// whose upper left corner is at position x, y
 		// Check out the processing documentation for more methods
-		
-		
+		//pg.rect(x, y, 10, 10);
+		//pg.fill(Color.red.getRGB());
+		//pg.strokeWeight((float)1);
+
+		//	pg.fill(this.highlightColor);
+		//	pg.stroke(this.highlightStrokeColor);
 		// Restore previous drawing style
+		//pg.ellipse((float)((int)x), (float)((int)y), 2, 2);
 		pg.popStyle();
 	}
 	

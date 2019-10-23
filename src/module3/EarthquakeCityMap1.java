@@ -1,28 +1,26 @@
 package module3;
 
 //Java utilities libraries
-import java.awt.*;
-import java.util.ArrayList;
-//import java.util.Collections;
-//import java.util.Comparator;
-import java.util.List;
 
-//Processing library
-import de.fhpotsdam.unfolding.data.Feature;
-import de.fhpotsdam.unfolding.geo.Location;
-import processing.core.PApplet;
-
-//Unfolding libraries
 import de.fhpotsdam.unfolding.UnfoldingMap;
-import de.fhpotsdam.unfolding.marker.Marker;
 import de.fhpotsdam.unfolding.data.PointFeature;
+import de.fhpotsdam.unfolding.marker.Marker;
 import de.fhpotsdam.unfolding.marker.SimplePointMarker;
 import de.fhpotsdam.unfolding.providers.Google;
 import de.fhpotsdam.unfolding.providers.MBTilesMapProvider;
 import de.fhpotsdam.unfolding.utils.MapUtils;
-
-//Parsing library
 import parsing.ParseFeed;
+import processing.core.PApplet;
+
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
+
+//import java.util.Collections;
+//import java.util.Comparator;
+//Processing library
+//Unfolding libraries
+//Parsing library
 
 
 
@@ -32,7 +30,7 @@ import parsing.ParseFeed;
  * @author Your name here
  * Date: July 17, 2015
  * */
-public class EarthquakeCityMap extends PApplet {
+public class EarthquakeCityMap1 extends PApplet {
 
 	// You can ignore this.  It's to keep eclipse from generating a warning.
 	private static final long serialVersionUID = 1L;

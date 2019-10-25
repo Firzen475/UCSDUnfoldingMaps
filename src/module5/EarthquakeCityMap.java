@@ -120,6 +120,8 @@ public class EarthquakeCityMap extends PApplet {
 		background(0);
 		map.draw();
 		addKey();
+		/*if(lastSelected!=null)
+			lastSelected.showTitle(this.g,this.mouseX,this.mouseY);*/
 		
 	}
 	
@@ -129,6 +131,7 @@ public class EarthquakeCityMap extends PApplet {
 	@Override
 	public void mouseMoved()
 	{
+
 		// clear the last selection
 		if (lastSelected != null) {
 			lastSelected.setSelected(false);
@@ -137,6 +140,7 @@ public class EarthquakeCityMap extends PApplet {
 		}
 		selectMarkerIfHover(quakeMarkers);
 		selectMarkerIfHover(cityMarkers);
+
 	}
 	
 	// If there is a marker under the cursor, and lastSelected is null 
@@ -145,7 +149,19 @@ public class EarthquakeCityMap extends PApplet {
 	// 
 	private void selectMarkerIfHover(List<Marker> markers)
 	{
+
 		// TODO: Implement this method
+		markers.forEach(marker -> {
+			if (marker.isInside(map,this.mouseX,this.mouseY)){
+				if (lastSelected!=null){
+					lastSelected.setSelected(false);
+				}
+				lastSelected=(CommonMarker) marker;
+				lastSelected.setSelected(true);
+
+			}
+		});
+
 	}
 	
 	/** The event handler for mouse clicks
@@ -159,8 +175,61 @@ public class EarthquakeCityMap extends PApplet {
 		// TODO: Implement this method
 		// Hint: You probably want a helper method or two to keep this code
 		// from getting too long/disorganized
+
+		if (lastClicked == null){
+			checkCityMarkers();
+			checkQuake();
+			if (lastClicked == null){
+				unhideMarkers();
+			}
+		}else {
+			lastClicked = null;
+			unhideMarkers();
+		}
+
+
 	}
-	
+
+	private void checkCityMarkers(){
+		cityMarkers.forEach(city -> {
+			if (!city.isHidden() & city.isInside(map,this.mouseX,this.mouseY)){
+				lastClicked = null;
+				lastClicked = (CommonMarker) city;
+				city.setHidden(false);
+				quakeMarkers.forEach(quake ->{
+					if (quake.getDistanceTo(city.getLocation())
+							> ((EarthquakeMarker)quake).threatCircle()) {
+						quake.setHidden(true);
+					}else {
+						quake.setHidden(false);
+					}
+				});
+			}else {
+				city.setHidden(true);
+			}
+		});
+	}
+
+	private void checkQuake(){
+		if (lastClicked != null) return;
+		quakeMarkers.forEach(quake -> {
+			if (quake.isHidden()|quake.isInside(map,this.mouseX,this.mouseY)){
+				lastClicked = null;
+				lastClicked = (CommonMarker) quake;
+				quake.setHidden(false);
+				cityMarkers.forEach(city ->{
+					if (city.getDistanceTo(quake.getLocation())
+							> ((EarthquakeMarker)quake).threatCircle()) {
+						city.setHidden(true);
+					}else {
+						city.setHidden(false);
+					}
+				});
+			}else {
+				quake.setHidden(true);
+			}
+		});
+	}
 	
 	// loop over and unhide all markers
 	private void unhideMarkers() {

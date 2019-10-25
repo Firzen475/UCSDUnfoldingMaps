@@ -3,6 +3,9 @@ package module5;
 import de.fhpotsdam.unfolding.data.PointFeature;
 import processing.core.PGraphics;
 
+import static javax.swing.SwingConstants.CENTER;
+import static javax.swing.SwingConstants.LEFT;
+
 /** Implements a visual marker for earthquakes on an earthquake map
  * 
  * @author UC San Diego Intermediate Software Development MOOC team
@@ -94,7 +97,11 @@ public abstract class EarthquakeMarker extends CommonMarker
 	public void showTitle(PGraphics pg, float x, float y)
 	{
 		// TODO: Implement this method
-		
+		pg.textAlign(LEFT, CENTER);
+		pg.fill(0, 0, 0);
+		pg.textSize(12);
+		pg.text("EarthQuake: "+this.getTitle()+".", x+10, y);
+
 	}
 
 	

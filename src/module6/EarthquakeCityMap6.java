@@ -1,9 +1,5 @@
 package module6;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import de.fhpotsdam.unfolding.UnfoldingMap;
 import de.fhpotsdam.unfolding.data.Feature;
 import de.fhpotsdam.unfolding.data.GeoJSONReader;
@@ -18,13 +14,17 @@ import de.fhpotsdam.unfolding.utils.MapUtils;
 import parsing.ParseFeed;
 import processing.core.PApplet;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+
 /** EarthquakeCityMap
  * An application with an interactive map displaying earthquake data.
  * Author: UC San Diego Intermediate Software Development MOOC team
  * @author Your name here
  * Date: July 17, 2015
  * */
-public class EarthquakeCityMap extends PApplet {
+public class EarthquakeCityMap6 extends PApplet {
 	
 	// We will use member variables, instead of local variables, to store the data
 	// that the setUp and draw methods will need to access (as well as other methods)
@@ -85,7 +85,7 @@ public class EarthquakeCityMap extends PApplet {
 		//earthquakesURL = "test2.atom";
 		
 		// Uncomment this line to take the quiz
-		//earthquakesURL = "quiz2.atom";
+		earthquakesURL = "quiz2.atom";
 		
 		
 		// (2) Reading in earthquake data and geometric properties
@@ -123,8 +123,8 @@ public class EarthquakeCityMap extends PApplet {
 	    //           for their geometric properties
 	    map.addMarkers(quakeMarkers);
 	    map.addMarkers(cityMarkers);
-	    
-	    
+
+		sortAndPrint(50);
 	}  // End setup
 	
 	
@@ -139,7 +139,26 @@ public class EarthquakeCityMap extends PApplet {
 	// TODO: Add the method:
 	//   private void sortAndPrint(int numToPrint)
 	// and then call that method from setUp
-	
+
+	private void sortAndPrint(int numToPrint){
+		quakeMarkers.sort(new Comparator<Marker>() {
+			@Override
+			public int compare(Marker o1, Marker o2) {
+				return ((EarthquakeMarker)o1).compareTo((EarthquakeMarker)o2);
+			}
+		});
+		Object[] array = quakeMarkers.toArray();
+		int tmp =0 ;
+		for (Object eqm: array){
+			if (tmp<numToPrint){
+				System.out.println(((EarthquakeMarker)eqm).getMagnitude()+ " "+((EarthquakeMarker)eqm).getRadius()+
+						" "+((EarthquakeMarker)eqm).getTitle());
+			}
+			tmp++;
+		}
+
+	}
+
 	/** Event handler that gets called automatically when the 
 	 * mouse moves.
 	 */
